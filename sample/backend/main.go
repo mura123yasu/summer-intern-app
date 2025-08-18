@@ -127,6 +127,9 @@ func getItems(w http.ResponseWriter, r *http.Request) {
 		items = append(items, i)
 	}
 
+	// --- ログ出力追加 ---
+	log.Printf("Successfully fetched %d items", len(items))
+
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(items)
 }
@@ -151,6 +154,9 @@ func getItem(w http.ResponseWriter, r *http.Request) {
 		}
 		return
 	}
+
+	// --- ログ出力追加 ---
+	log.Printf("Successfully fetched item with id: %d", id)
 
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(i)
