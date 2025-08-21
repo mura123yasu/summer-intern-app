@@ -88,14 +88,21 @@ func connectWithConnector() (*pgxpool.Pool, error) {
 	}
 
 	// Cloud SQL Go Connector Dialer を作成
-	d, err := cloudsqlconn.NewDialer(context.Background(), cloudsqlconn.WithIAMAuthN())
+	d, err := cloudsqlconn.NewDialer(context.Background(),
+		cloudsqlconn.WithIAMAuthN(),
+	)
+	// d, err := cloudsqlconn.NewDialer(context.Background(),
+	// 	cloudsqlconn.WithIAMAuthN(),
+	// 	cloudsqlconn.WithPrivateIP(),
+	// )
 	if err != nil {
 		return nil, err
 	}
 
 	// pgxドライバがコネクタを使うように設定
 	config.ConnConfig.DialFunc = func(ctx context.Context, _, _ string) (net.Conn, error) {
-		return d.Dial(ctx, instanceConnectionName)
+		// return d.Dial(ctx, instanceConnectionName)
+		return d.Dial(ctx, instanceConnectionName, cloudsqlconn.WithPrivateIP(),)
 	}
 
 	dbPool, err := pgxpool.NewWithConfig(context.Background(), config)
@@ -127,7 +134,6 @@ func getItems(w http.ResponseWriter, r *http.Request) {
 		items = append(items, i)
 	}
 
-	// --- ログ出力追加 ---
 	log.Printf("Successfully fetched %d items", len(items))
 
 	w.Header().Set("Content-Type", "application/json")
@@ -155,7 +161,6 @@ func getItem(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// --- ログ出力追加 ---
 	log.Printf("Successfully fetched item with id: %d", id)
 
 	w.Header().Set("Content-Type", "application/json")
