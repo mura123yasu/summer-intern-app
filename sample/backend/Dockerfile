@@ -1,6 +1,6 @@
 # ---- ビルドステージ ----
 # Goのビルド環境として、軽量なalpineバージョンのgolangイメージを使用します
-FROM golang:1.21-alpine AS builder
+FROM golang:1.23-alpine AS builder
 
 # 作業ディレクトリを設定
 WORKDIR /app
