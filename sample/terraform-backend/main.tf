@@ -82,10 +82,10 @@ resource "google_cloud_run_v2_service" "backend_service" {
       }
     # 追加時にコメントアウトを外す
     # ここから
-      env {
-        name  = "APP_VERSION"
-        value = "1.0.0-intern-label"
-      }
+    #   env {
+    #     name  = "APP_VERSION"
+    #     value = "1.0.0-intern-label"
+    #   }
     # ここまで
     }
   }
