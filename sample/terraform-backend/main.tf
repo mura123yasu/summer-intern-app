@@ -55,7 +55,7 @@ resource "google_cloud_run_v2_service" "backend_service" {
     service_account = google_service_account.run_sa.email
     vpc_access {
       connector = google_vpc_access_connector.connector.id
-      egress    = "ALL_TRAFFIC"
+      egress    = "PRIVATE_RANGES_ONLY"
     }
     containers {
       image = "gcr.io/${var.project_id}/intern-app-backend:v2"
