@@ -27,11 +27,11 @@ resource "google_service_account" "run_sa" {
 }
 
 # サービスアカウントに必要な権限を付与
-resource "google_project_iam_member" "sql_client_role" {
-  project = var.project_id
-  role    = "roles/cloudsql.client"
-  member  = "serviceAccount:${google_service_account.run_sa.email}"
-}
+# resource "google_project_iam_member" "sql_client_role" {
+#   project = var.project_id
+#   role    = "roles/cloudsql.client"
+#   member  = "serviceAccount:${google_service_account.run_sa.email}"
+# }
 
 # Secret Managerに作成済みのシークレットの情報を参照
 data "google_secret_manager_secret" "db_password_secret" {
@@ -39,12 +39,12 @@ data "google_secret_manager_secret" "db_password_secret" {
 }
 
 # Cloud Runが使用するサービスアカウントに、特定のシークレットへのアクセス権を付与
-resource "google_secret_manager_secret_iam_member" "secret_accessor_role" {
-  project   = data.google_secret_manager_secret.db_password_secret.project
-  secret_id = data.google_secret_manager_secret.db_password_secret.secret_id
-  role      = "roles/secretmanager.secretAccessor"
-  member    = "serviceAccount:${google_service_account.run_sa.email}"
-}
+# resource "google_secret_manager_secret_iam_member" "secret_accessor_role" {
+#   project   = data.google_secret_manager_secret.db_password_secret.project
+#   secret_id = data.google_secret_manager_secret.db_password_secret.secret_id
+#   role      = "roles/secretmanager.secretAccessor"
+#   member    = "serviceAccount:${google_service_account.run_sa.email}"
+# }
 
 # 3. Cloud Runサービス
 resource "google_cloud_run_v2_service" "backend_service" {
