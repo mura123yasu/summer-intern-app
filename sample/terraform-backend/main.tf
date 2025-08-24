@@ -92,8 +92,8 @@ resource "google_cloud_run_v2_service" "backend_service" {
     type            = "TRAFFIC_TARGET_ALLOCATION_TYPE_LATEST"
   }
 
-  depends_on = [
-    google_project_iam_member.sql_client_role,
-    google_secret_manager_secret_iam_member.secret_accessor_role
-  ]
+#   depends_on = [
+#     google_project_iam_member.sql_client_role,
+#     google_secret_manager_secret_iam_member.secret_accessor_role
+#   ]
 }
